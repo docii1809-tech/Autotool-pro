@@ -23,9 +23,47 @@
   <header>
     <h1>AutoTool Pro</h1>
     <p>Free vehicle tools. Pay only for downloads.</p>
-  </header>
+  </heade <main>
+  <section>
+    <h2>Fuse Finder Pro</h2>
+    <p>Enter your vehicle to locate the fuse box.</p>
 
-  <main>
+    <label>Year</label>
+    <select id="year">
+      <option value="">Select Year</option>
+      <option>2015</option>
+      <option>2016</option>
+      <option>2017</option>
+      <option>2018</option>
+      <option>2019</option>
+    </select>
+
+    <label>Make</label>
+    <select id="make">
+      <option value="">Select Make</option>
+      <option value="Honda">Honda</option>
+      <option value="Toyota">Toyota</option>
+      <option value="Ford">Ford</option>
+    </select>
+
+    <label>Model</label>
+    <select id="model">
+      <option value="">Select Model</option>
+    </select>
+
+    <button id="findFuse">Find Fuse Box</button>
+  </section>
+
+  <section id="results" style="display:none;">
+    <h3>Your Vehicle</h3>
+
+    <img id="carImage" src="" alt="Car image" />
+
+    <p id="fuseInfo"></p>
+
+    <button id="pdfBtn">Download Fuse Diagram (PDF)</button>
+  </section>
+</main>
     <section>
       <h2>Fuse Finder Pro</h2>
       <p>Find your vehicle’s fuse box and correct fuse in seconds.</p>

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,17 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AutoTool Pro – Free Vehicle Tools</title>
   <meta name="description" content="Free vehicle tools: Fuse Finder, maintenance checks, warning light help, and downloadable reports." />
-
-  <!-- SEO Schema Placeholder -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    "name": "AutoTool Pro",
-    "applicationCategory": "Automotive",
-    "operatingSystem": "All"
-  }
-  </script>
 
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -28,28 +18,35 @@
 
   <main>
 
-    <section>.   
-      <section id="results" style="display:none;">
-  <h3>Your Vehicle</h3>
+    <!-- Vehicle selector -->
+    <section id="vehicleSelector">
+      <label for="yearSelect">Year:</label>
+      <select id="yearSelect">
+        <option value="">Select Year</option>
+      </select>
 
-  <img id="carImage" src="" alt="Car image" />
+      <label for="makeSelect">Make:</label>
+      <select id="makeSelect" disabled>
+        <option value="">Select Make</option>
+      </select>
 
-  <p id="fuseInfo"></p>
+      <label for="modelSelect">Model:</label>
+      <select id="modelSelect" disabled>
+        <option value="">Select Model</option>
+      </select>
+    </section>
 
-  <h4>Fuse Diagram (Sample)</h4>
-  <div id="fuseGrid"></div>
-  <p id="fuseDetail"></p>
-
-  <button id="pdfBtn">Download Fuse Diagram (PDF)</button>
-</section>
-    <section <h4>Fuse Diagram (Sample)</h4>
-<div id="fuseGrid"></div>
-<p id="fuseDetail"></p>
+    <!-- Results section -->
+    <section id="results" style="display:none;">
       <h3>Your Vehicle</h3>
 
       <img id="carImage" src="" alt="Car image" />
 
       <p id="fuseInfo"></p>
+
+      <h4>Fuse Diagram (Sample)</h4>
+      <div id="fuseGrid"></div>
+      <p id="fuseDetail"></p>
 
       <button id="pdfBtn">Download Fuse Diagram (PDF)</button>
     </section>

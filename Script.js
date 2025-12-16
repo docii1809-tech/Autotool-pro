@@ -166,4 +166,4 @@ if (pdfBtn) {
   pdfBtn.onclick = () => {
     alert("Premium PDF download — Stripe checkout goes here.");
   };
-      }
+}

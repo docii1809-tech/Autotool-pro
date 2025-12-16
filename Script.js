@@ -1,50 +1,55 @@
-
+// -----------------------------
 // Launch Fuse Pro (monetization placeholder)
+// -----------------------------
 const launchBtn = document.getElementById("launchFuse");
 if (launchBtn) {
   launchBtn.onclick = () => {
-    alert("Fuse Finder Pro coming next. This is your monetization engine.");
+    alert("Fuse Finder Pro is the monetization engine.");
   };
 }
 
-// Sample vehicle data with image & fuse info
+// -----------------------------
+// SAMPLE VEHICLE DATA
+// -----------------------------
 const vehicles = {
   2025: {
     Tesla: {
       "Model S": {
-        image: "images/2025_Tesla_Model S.jpg",
-        fuseInfo: "Tesla Model S fuse info here.",
+        image: "images/2025_Tesla_Model_S.jpg",
+        fuseInfo: "Interior fuse box under dashboard. Engine bay fuse box near battery.",
         fuseGrid: [
-          { fuse: "F1", description: "Headlights" },
-          { fuse: "F2", description: "Horn" },
-          { fuse: "F3", description: "AC" }
+          { fuse: "F1", description: "Headlights", amp: "15A" },
+          { fuse: "F2", description: "Horn", amp: "10A" },
+          { fuse: "F3", description: "AC", amp: "20A" }
         ]
       },
       "Model 3": {
-        image: "images/2025_Tesla_Model 3.jpg",
-        fuseInfo: "Tesla Model 3 fuse info here.",
+        image: "images/2025_Tesla_Model_3.jpg",
+        fuseInfo: "Front trunk fuse box and interior panel.",
         fuseGrid: [
-          { fuse: "F1", description: "Headlights" },
-          { fuse: "F2", description: "Horn" }
+          { fuse: "F1", description: "Lights", amp: "10A" },
+          { fuse: "F2", description: "Radio", amp: "15A" }
         ]
       }
     },
     Ford: {
       "F-150": {
-        image: "images/2025_Ford_F-150.jpg",
-        fuseInfo: "Ford F-150 fuse info here.",
+        image: "images/2025_Ford_F150.jpg",
+        fuseInfo: "Passenger footwell and engine compartment.",
         fuseGrid: [
-          { fuse: "F1", description: "Headlights" },
-          { fuse: "F2", description: "Horn" },
-          { fuse: "F3", description: "AC" },
-          { fuse: "F4", description: "Radio" }
+          { fuse: "F1", description: "Headlights", amp: "15A" },
+          { fuse: "F2", description: "Horn", amp: "10A" },
+          { fuse: "F3", description: "AC", amp: "20A" },
+          { fuse: "F4", description: "Radio", amp: "10A" }
         ]
       }
     }
   }
 };
 
-// DOM references
+// -----------------------------
+// DOM REFERENCES
+// -----------------------------
 const yearSelect = document.getElementById("yearSelect");
 const makeSelect = document.getElementById("makeSelect");
 const modelSelect = document.getElementById("modelSelect");
@@ -52,8 +57,11 @@ const carImage = document.getElementById("carImage");
 const fuseInfo = document.getElementById("fuseInfo");
 const fuseGrid = document.getElementById("fuseGrid");
 const results = document.getElementById("results");
+const pdfBtn = document.getElementById("pdfBtn");
 
-// Populate years
+// -----------------------------
+// POPULATE YEARS
+// -----------------------------
 Object.keys(vehicles).forEach(year => {
   const opt = document.createElement("option");
   opt.value = year;
@@ -61,18 +69,18 @@ Object.keys(vehicles).forEach(year => {
   yearSelect.appendChild(opt);
 });
 
-// Year change
+// -----------------------------
+// YEAR → MAKE
+// -----------------------------
 yearSelect.addEventListener("change", () => {
-  const year = yearSelect.value;
   makeSelect.innerHTML = '<option value="">Select Make</option>';
   modelSelect.innerHTML = '<option value="">Select Model</option>';
+  makeSelect.disabled = true;
   modelSelect.disabled = true;
+  results.style.display = "none";
 
-  if (!year) {
-    makeSelect.disabled = true;
-    results.style.display = "none";
-    return;
-  }
+  const year = yearSelect.value;
+  if (!year) return;
 
   Object.keys(vehicles[year]).forEach(make => {
     const opt = document.createElement("option");
@@ -82,20 +90,19 @@ yearSelect.addEventListener("change", () => {
   });
 
   makeSelect.disabled = false;
-  results.style.display = "none";
 });
 
-// Make change
+// -----------------------------
+// MAKE → MODEL
+// -----------------------------
 makeSelect.addEventListener("change", () => {
+  modelSelect.innerHTML = '<option value="">Select Model</option>';
+  modelSelect.disabled = true;
+  results.style.display = "none";
+
   const year = yearSelect.value;
   const make = makeSelect.value;
-  modelSelect.innerHTML = '<option value="">Select Model</option>';
-
-  if (!make) {
-    modelSelect.disabled = true;
-    results.style.display = "none";
-    return;
-  }
+  if (!make) return;
 
   Object.keys(vehicles[year][make]).forEach(model => {
     const opt = document.createElement("option");
@@ -105,43 +112,58 @@ makeSelect.addEventListener("change", () => {
   });
 
   modelSelect.disabled = false;
-  results.style.display = "none";
 });
 
-// Model change
+// -----------------------------
+// MODEL → RESULTS
+// -----------------------------
 modelSelect.addEventListener("change", () => {
   const year = yearSelect.value;
   const make = makeSelect.value;
   const model = modelSelect.value;
-
-  if (!model) {
-    results.style.display = "none";
-    return;
-  }
+  if (!model) return;
 
   const vehicle = vehicles[year][make][model];
-  results.style.display = "block";
 
-  // Car image
+  results.style.display = "block";
   carImage.src = vehicle.image || "images/placeholder.jpg";
   carImage.alt = `${year} ${make} ${model}`;
+  fuseInfo.textContent = vehicle.fuseInfo;
 
-  // Fuse info
-  fuseInfo.textContent = vehicle.fuseInfo || "No fuse info available.";
-
-  // Fuse grid
-  fuseGrid.innerHTML = "";
-  vehicle.fuseGrid.forEach(f => {
-    const p = document.createElement("p");
-    p.textContent = `${f.fuse}: ${f.description}`;
-    fuseGrid.appendChild(p);
-  });
+  buildFuseGrid(vehicle.fuseGrid);
 });
 
-// PDF button placeholder
-const pdfBtn = document.getElementById("pdfBtn");
+// -----------------------------
+// BUILD FUSE GRID
+// -----------------------------
+function buildFuseGrid(fuses) {
+  fuseGrid.innerHTML = "";
+  fuseGrid.style.display = "grid";
+  fuseGrid.style.gridTemplateColumns = "repeat(auto-fill, minmax(80px, 1fr))";
+  fuseGrid.style.gap = "10px";
+
+  fuses.forEach(f => {
+    const box = document.createElement("div");
+    box.style.border = "1px solid #ccc";
+    box.style.padding = "10px";
+    box.style.cursor = "pointer";
+    box.style.borderRadius = "6px";
+    box.style.textAlign = "center";
+    box.textContent = f.fuse;
+
+    box.onclick = () => {
+      alert(`${f.fuse}\n${f.description}\n${f.amp}`);
+    };
+
+    fuseGrid.appendChild(box);
+  });
+}
+
+// -----------------------------
+// PDF BUTTON (STRIPE GATE)
+// -----------------------------
 if (pdfBtn) {
   pdfBtn.onclick = () => {
-    alert("PDF download coming soon. You will integrate Stripe here.");
+    alert("Premium PDF download — Stripe checkout goes here.");
   };
-                            }
+      }

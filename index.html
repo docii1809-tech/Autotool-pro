@@ -1,4 +1,32 @@
-<main>
+<main><section id="vehicleSelector">
+  <label>Year</label>
+  <select id="yearSelect">
+    <option value="">Select Year</option>
+  </select>
+
+  <label>Make</label>
+  <select id="makeSelect" disabled>
+    <option value="">Select Make</option>
+  </select>
+
+  <label>Model</label>
+  <select id="modelSelect" disabled>
+    <option value="">Select Model</option>
+  </select>
+</section>
+
+<section id="results" style="display:none;">
+  <h3>Your Vehicle</h3>
+
+  <img id="carImage" alt="Car image" style="max-width:300px;display:block;margin-bottom:10px;">
+
+  <p id="fuseInfo"></p>
+
+  <h4>Fuse Diagram</h4>
+  <div id="fuseGrid"></div>
+
+  <button id="pdfBtn">Download PDF</button>
+</section>
 
   <!-- Vehicle selector -->
   <section id="vehicleSelector">

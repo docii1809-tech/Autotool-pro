@@ -1,16 +1,47 @@
-document.getElementById("launchFuse").onclick = () => {
-  alert("Fuse Finder Pro coming next. This is your monetization engine.");
-};
-// Sample vehicle data
+
+// Launch Fuse Pro (monetization placeholder)
+const launchBtn = document.getElementById("launchFuse");
+if (launchBtn) {
+  launchBtn.onclick = () => {
+    alert("Fuse Finder Pro coming next. This is your monetization engine.");
+  };
+}
+
+// Sample vehicle data with image & fuse info
 const vehicles = {
   2025: {
-    Tesla: ["Model S", "Model 3", "Model X", "Model Y"],
-    Ford: ["F-150", "Mustang", "Explorer"],
-  },
-  2024: {
-    Tesla: ["Model S", "Model 3", "Model X"],
-    Ford: ["F-150", "Mustang"],
-  },
+    Tesla: {
+      "Model S": {
+        image: "images/2025_Tesla_Model S.jpg",
+        fuseInfo: "Tesla Model S fuse info here.",
+        fuseGrid: [
+          { fuse: "F1", description: "Headlights" },
+          { fuse: "F2", description: "Horn" },
+          { fuse: "F3", description: "AC" }
+        ]
+      },
+      "Model 3": {
+        image: "images/2025_Tesla_Model 3.jpg",
+        fuseInfo: "Tesla Model 3 fuse info here.",
+        fuseGrid: [
+          { fuse: "F1", description: "Headlights" },
+          { fuse: "F2", description: "Horn" }
+        ]
+      }
+    },
+    Ford: {
+      "F-150": {
+        image: "images/2025_Ford_F-150.jpg",
+        fuseInfo: "Ford F-150 fuse info here.",
+        fuseGrid: [
+          { fuse: "F1", description: "Headlights" },
+          { fuse: "F2", description: "Horn" },
+          { fuse: "F3", description: "AC" },
+          { fuse: "F4", description: "Radio" }
+        ]
+      }
+    }
+  }
 };
 
 // DOM references
@@ -23,14 +54,14 @@ const fuseGrid = document.getElementById("fuseGrid");
 const results = document.getElementById("results");
 
 // Populate years
-Object.keys(vehicles).forEach((year) => {
-  const option = document.createElement("option");
-  option.value = year;
-  option.textContent = year;
-  yearSelect.appendChild(option);
+Object.keys(vehicles).forEach(year => {
+  const opt = document.createElement("option");
+  opt.value = year;
+  opt.textContent = year;
+  yearSelect.appendChild(opt);
 });
 
-// When year changes
+// Year change
 yearSelect.addEventListener("change", () => {
   const year = yearSelect.value;
   makeSelect.innerHTML = '<option value="">Select Make</option>';
@@ -43,17 +74,18 @@ yearSelect.addEventListener("change", () => {
     return;
   }
 
-  Object.keys(vehicles[year]).forEach((make) => {
-    const option = document.createElement("option");
-    option.value = make;
-    option.textContent = make;
-    makeSelect.appendChild(option);
+  Object.keys(vehicles[year]).forEach(make => {
+    const opt = document.createElement("option");
+    opt.value = make;
+    opt.textContent = make;
+    makeSelect.appendChild(opt);
   });
+
   makeSelect.disabled = false;
   results.style.display = "none";
 });
 
-// When make changes
+// Make change
 makeSelect.addEventListener("change", () => {
   const year = yearSelect.value;
   const make = makeSelect.value;
@@ -65,18 +97,18 @@ makeSelect.addEventListener("change", () => {
     return;
   }
 
-  vehicles[year][make].forEach((model) => {
-    const option = document.createElement("option");
-    option.value = model;
-    option.textContent = model;
-    modelSelect.appendChild(option);
+  Object.keys(vehicles[year][make]).forEach(model => {
+    const opt = document.createElement("option");
+    opt.value = model;
+    opt.textContent = model;
+    modelSelect.appendChild(opt);
   });
 
   modelSelect.disabled = false;
   results.style.display = "none";
 });
 
-// When model changes
+// Model change
 modelSelect.addEventListener("change", () => {
   const year = yearSelect.value;
   const make = makeSelect.value;
@@ -87,13 +119,29 @@ modelSelect.addEventListener("change", () => {
     return;
   }
 
-  // Show results
+  const vehicle = vehicles[year][make][model];
   results.style.display = "block";
 
-  // Placeholder image & info
-  carImage.src = `images/${year}_${make}_${model}.jpg`;
+  // Car image
+  carImage.src = vehicle.image || "images/placeholder.jpg";
   carImage.alt = `${year} ${make} ${model}`;
 
-  fuseInfo.textContent = `Fuse info for ${year} ${make} ${model} goes here.`;
-  fuseGrid.innerHTML = `<p>Sample fuse grid for ${year} ${make} ${model}</p>`;
+  // Fuse info
+  fuseInfo.textContent = vehicle.fuseInfo || "No fuse info available.";
+
+  // Fuse grid
+  fuseGrid.innerHTML = "";
+  vehicle.fuseGrid.forEach(f => {
+    const p = document.createElement("p");
+    p.textContent = `${f.fuse}: ${f.description}`;
+    fuseGrid.appendChild(p);
+  });
 });
+
+// PDF button placeholder
+const pdfBtn = document.getElementById("pdfBtn");
+if (pdfBtn) {
+  pdfBtn.onclick = () => {
+    alert("PDF download coming soon. You will integrate Stripe here.");
+  };
+                            }

@@ -90,7 +90,7 @@ modelSelect.addEventListener("change", () => {
   // Show results
   results.style.display = "block";
 
-  // Placeholder data — later we’ll replace with real images/fuse info
+  // Placeholder image & info
   carImage.src = `images/${year}_${make}_${model}.jpg`;
   carImage.alt = `${year} ${make} ${model}`;
 
